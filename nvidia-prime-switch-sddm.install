@@ -1,0 +1,20 @@
+pre_install() {
+# rename org Xsetup script
+cat <<EOF>"/usr/share/sddm/scripts/Xsetup"
+#!/bin/sh
+# Xsetup - run as root before the login dialog appears
+
+xrandr --setprovideroutputsource modesetting NVIDIA-0;
+xrandr --auto;
+EOF
+printf "\n\e[31m%s\e[39m\n\n" "Added xrandr commands to /usr/share/sddm/scripts/Xsetup"
+}
+
+pre_remove() {
+cat <<EOF>"/usr/share/sddm/scripts/Xsetup"
+#!/bin/sh
+# Xsetup - run as root before the login dialog appears
+
+EOF
+printf "\n\e[31m%s\e[39m\n\n" "Removed xrandr commands from /usr/share/sddm/scripts/Xsetup"
+}

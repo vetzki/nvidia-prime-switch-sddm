@@ -1,0 +1,53 @@
+{
+    "modules_load_file": "/etc/modules-load.d/mhwd-gpu.conf",
+    "modules_modprobe_file": "/etc/modprobe.d/mhwd-gpu.conf",
+    "mhwd_symlink_target": "/etc/X11/xorg.conf.d/90-mhwd.conf",
+    "driver": {
+        "intel": {
+            "xorg_file": "/etc/X11/mhwd.d/intel.conf",
+            "modules_load": [
+                "nvidia",
+                "nvidia-modeset",
+                "nvidia-drm",
+                "nvidia-uvm"
+            ],
+            "modules_blacklist": [
+                "nouveau",
+                "ttm"
+            ],
+            "modules_disable":[],
+            "modules_options": [
+                "nvidia-drm modeset=1"
+	    ]
+        },
+        "intel_modesetting": {
+            "xorg_file": "/etc/X11/mhwd.d/intel-modesetting.conf",
+            "modules_load": [],
+            "modules_blacklist": [],
+            "modules_disable":[
+                "nvidia",
+                "nvidia-modeset",
+                "nvidia-drm",
+                "nvidia-uvm"
+            ],
+            "modules_options": []
+        },
+        "nvidia": {
+            "xorg_file": "/etc/X11/mhwd.d/nvidia.conf",
+            "modules_load": [
+                "nvidia",
+                "nvidia-modeset",
+                "nvidia-drm",
+                "nvidia-uvm"
+            ],
+            "modules_blacklist": [
+                "nouveau",
+                "ttm"
+            ],
+            "modules_disable":[],
+            "modules_options": [
+                "nvidia-drm modeset=1"
+            ]
+        }
+    }
+}

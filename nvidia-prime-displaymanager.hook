@@ -1,0 +1,12 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Type = Package 
+Target = sddm
+Target = lightdm
+
+[Action]
+Description = Info to reinstall nvidia-prime package
+When = PostTransaction
+Exec = /usr/bin/printf "\n\e[31m%s\e[39m\n\n" "Display Mangager changed! Please reinstall correct nvidia-prime package"
