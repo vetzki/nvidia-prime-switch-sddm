@@ -4,6 +4,7 @@
     "mhwd_symlink_target": "/etc/X11/xorg.conf.d/90-mhwd.conf",
     "driver": {
         "intel": {
+            "comment":"use intel gpu and load nvidia modules with enabled prime synchronization. Allow switchting without reboot.",
             "xorg_file": "/etc/X11/mhwd.d/intel.conf",
             "modules_load": [
                 "nvidia",
@@ -20,7 +21,24 @@
                 "nvidia-drm modeset=1"
 	    ]
         },
+        "intel_noprimesync": {
+            "comment":"use intel gpu and load nvidia modules without prime synchronization. Allow switchting without reboot.",
+            "xorg_file": "/etc/X11/mhwd.d/intel.conf",
+            "modules_load": [
+                "nvidia",
+                "nvidia-modeset",
+                "nvidia-drm",
+                "nvidia-uvm"
+            ],
+            "modules_blacklist": [
+                "nouveau",
+                "ttm"
+            ],
+            "modules_disable":[],
+            "modules_options": []
+        },
         "intel_modesetting": {
+            "comment":"use modesetting driver for intel gpu. Disable nvidia modules",
             "xorg_file": "/etc/X11/mhwd.d/intel-modesetting.conf",
             "modules_load": [],
             "modules_blacklist": [],
@@ -33,6 +51,7 @@
             "modules_options": []
         },
         "nvidia": {
+            "comment":"Use nvidia gpu with prime synchronization enabled (nvidia-drm modest=1)",
             "xorg_file": "/etc/X11/mhwd.d/nvidia.conf",
             "modules_load": [
                 "nvidia",
@@ -48,6 +67,30 @@
             "modules_options": [
                 "nvidia-drm modeset=1"
             ]
+        },
+        "nvidia_noprimesync": {
+            "comment":"Use nvidia gpu without prime synchronization. (nvidia-drm modeset=0)",
+            "xorg_file": "/etc/X11/mhwd.d/nvidia.conf",
+            "modules_load": [
+                "nvidia",
+                "nvidia-modeset",
+                "nvidia-drm",
+                "nvidia-uvm"
+            ],
+            "modules_blacklist": [
+                "nouveau",
+                "ttm"
+            ],
+            "modules_disable":[],
+            "modules_options": []
+        },
+        "wayland": {
+            "comment":"Disable nvidia modules, no xorg config file, use for wayland",
+            "xorg_file": "/dev/null",
+            "modules_load": [],
+            "modules_blacklist": [],
+            "modules_disable": ["nvidia","nvidia-drm","nvidia-modeset","nvidia-uvm"],
+            "modules_options": []
         }
     }
 }
