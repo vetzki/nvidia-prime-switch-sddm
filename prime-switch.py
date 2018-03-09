@@ -99,7 +99,7 @@ class Util:
 
 if __name__ == "__main__":
     args = create_parser()
-    FMT = { "red":"\033[31m","green":"\033[32m","default":"\033[0m" }
+    FMT = { "red":"\x1b[31m","green":"\x1b[32m","bold":"\x1b[1m","cyan":"\x1b[36m","default":"\x1b[0m" }
     
     if args.current is True:
         gpus = return_curdrivers()
@@ -145,5 +145,12 @@ if __name__ == "__main__":
             exit(1)
     else:
         # driver not found or none specified
-        print("Possible drivers: %s" %(" or ".join(drivers)))
+        print("possible drivers:")
+        for i in drivers:
+            driver = FMT["bold"]+i+FMT["default"]
+            try:
+                comment = config["driver"][i]["comment"] if config["driver"][i]["comment"] is not False else None
+            except KeyError:
+                comment = None
+            print("%s (%s)" %(driver,comment) if comment is not None else "%s" %(driver))
         exit(2)
