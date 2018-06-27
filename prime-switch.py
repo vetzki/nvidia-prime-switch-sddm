@@ -35,7 +35,7 @@ def create_parser():
         
 
 def return_curdrivers():
-        cmd = 'lspci -D|grep VGA'
+        cmd = 'lspci -D|grep -e VGA -e 3D'
         std = subprocess.getstatusoutput(cmd)
         if std[0] == 0:
             gpus = ([k,v.split(" ")] for k,v in enumerate(std[1].split("\n")))
