@@ -4,8 +4,25 @@ cat <<EOF>"/usr/share/sddm/scripts/Xsetup"
 #!/bin/sh
 # Xsetup - run as root before the login dialog appears
 
-xrandr --setprovideroutputsource modesetting NVIDIA-0;
+check() {
+    lspci -k|grep "Kernel driver in use: nou.*";
+    echo $?;
+}
+
+if [[ $(check) == 0 ]];
+    then
+	# nouveau (see also https://nouveau.freedesktop.org/wiki/Optimus/)
+	xrandr --setprovideroffloadsink nouveau Intel;
+	# if second gpu output not accesible (no source output)
+	# xrandr --setprovideroutputsource nouveau Intel
+    else
+	# nvidia
+	xrandr --setprovideroutputsource modesetting NVIDIA-0; # not necessarily needed
+fi
+
 xrandr --auto;
+
+unset check;
 EOF
 printf "\n\e[31m%s\e[39m\n\n" "Added xrandr commands to /usr/share/sddm/scripts/Xsetup"
 }
