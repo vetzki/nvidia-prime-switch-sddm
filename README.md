@@ -1,7 +1,7 @@
-## nvidia-prime-switch-sddm for nvidia or nvidia-390xx
+#### nvidia-prime-switch-sddm for nvidia or nvidia-390xx
 
-## This package is for optimus based laptops and allow switching between nvidia and intel card
-## intented for usage with sddm
+#### This package is for optimus based laptops and allow switching between nvidia and intel card
+#### intented for usage with sddm
 
 install either
 `linux-Your_kernel_version(s)-nvidia module(s), nvidia-utils and lib32-nvidia-utils`
