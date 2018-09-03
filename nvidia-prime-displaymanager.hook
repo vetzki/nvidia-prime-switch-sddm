@@ -7,6 +7,6 @@ Target = sddm
 Target = lightdm
 
 [Action]
-Description = Info to reinstall nvidia-prime package
+Description = Info to reinstall/check nvidia-prime package
 When = PostTransaction
-Exec = /usr/bin/printf "\n\e[31m%s\e[39m\n\n" "Display Mangager changed! Please reinstall correct nvidia-prime package"
+Exec = /usr/bin/printf "\n\e[31m%s\n%s\n%s\e[39m\n\n" "Display Mangager changed!" "Update: please check if nvidia-prime changes are still present" "Install/Uninstall: please reinstall correct nvidia-prime package"
