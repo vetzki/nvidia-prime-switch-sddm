@@ -1,11 +1,11 @@
 pkgname="nvidia-prime-switch-sddm"
 pkgver=1
 pkgrel=6
-pkgdesc="(! use only with sddm !) Setup nvidia and intel for optimus based laptops without bumblebee (! use only with sddm !)"
+pkgdesc="(! use only with sddm !) Setup nvidia and intel for optimus based laptops without bumblebee (legacy 390xx nvidia driver) (! use only with sddm !)"
 license=("none")
 kernelvers="$(uname -r | awk -F "." '{print $1 $2}')"
-depends=('xf86-video-intel' 'python' 'sddm')
-optdepends=("linux${kernelvers}-nvidia" 'lib32-nvidia-utils' 'nvidia-utils' "linux${kernelvers}-nvidia-390xx" 'lib32-nvidia-390xx-utils' 'nvidia-390xx-utils' 'python-magic: better support for --info switch')
+depends=('xf86-video-intel' 'python' 'sddm' "linux${kernelvers}-nvidia-390xx" 'lib32-nvidia-390xx-utils' 'nvidia-390xx-utils')
+optdepends=('python-magic: better support for --info switch')
 makedepends=('python')
 conflicts=('nvidia-prime-switch' 'nvidia-prime-switch-lightdm')
 source=('prime-switch.py' 'prime-switch-conf.json' 'intel.conf' 'nvidia.conf' 'intel-modesetting.conf' 'nvidia-prime-displaymanager.hook')
