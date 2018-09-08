@@ -4,12 +4,6 @@
 import os,subprocess,re
 import argparse
 import json
-from sys import exc_info
-try:
-    from magic import detect_from_filename
-    PYMAGIC=True
-except ModuleNotFoundError:
-    PYMAGIC=False
 
 
 def create_parser():
@@ -31,82 +25,7 @@ def create_parser():
         metavar="Filename",
         help="Dumps default config to stdout or filename if specified"
     )
-    parser.add_argument(
-        "--info",
-        const=True,
-        action="store_const",
-        help="File Walk gpu related text files in /sys/bus/pci"
-    )
     return(parser.parse_args())
-        
-
-class File_Walk:
-    def __init__(self,d):
-        self.d = d
-        self.main()
-
-    def _gen_filennames(self,d):
-        return((dirpath,filename) for dirpath, dirnames, filenames,dirfd in os.fwalk(d) for filename in filenames)
-
-    def checkfile(self,path):
-        # maybe use just octal conversion of st_mode
-        stat = os.stat(path)
-        isreadable, uid, gid, mode = bool(stat.st_mode & os.st.S_IRGRP), stat.st_uid, stat.st_gid, stat.st_mode
-        return(isreadable,uid,gid,mode)
-
-    def read_file(self,path):
-        try:
-            # maybe check readability already here
-            if os.path.exists(path):
-                mime,enc,name = detect_from_filename(path) if PYMAGIC else ("Install python-magic to get mime_type and encoding",None,None)
-            else:
-                print("-------! %s don't exists" %(path))
-                return
-            if PYMAGIC and mime.startswith("text/"):
-                with open(path,errors="ignore") as f: # ignore UnicodeDecode errors on text files (maybe better use replace)
-                    print("-------> %s:\n%s" %(path,f.read()))
-            elif PYMAGIC is False:
-            # not pymagic, so just open and handle exceptions later
-                with open(path) as f: # ignore UnicodeDecode errors on text files
-                    print("-------> %s:\n%s" %(path,f.read()))
-            else:
-                print("-------! %s Not a text file (%s, %s, %s)" %(path,mime,enc,name))
-        except PermissionError:
-            print("-------! not allowed to read %s" %(path))
-        except UnicodeDecodeError:
-            # no PYMAGIC and trying to read a non text file
-            print("-------! Unicode Error (probably not a text file). %s %s" %(path,mime) )
-        except OSError:
-            print("-------! OSError for %s" %(path))
-        except ValueError as e:
-            # e.g. detect_from_filename error (e.g. permission issue on root files if user tries to read them)
-            readable, uid, gid, mode = self.checkfile(path)
-            print("-------! %s Not readable (uid: %i, gid: %i, mode: %s)" %(path,uid,gid,os.st.filemode(mode)) if readable is False else "-------! Error %s (file %s)" %(e,path))
-        #all other excpetions
-        except Exception:
-            e = exc_info()[0]
-            print("-------! %s (file %s)" %(e.__name__,path) )
-
-    def main(self):
-        for dir in self.d:
-        # TODO:
-        # normalize and absolute path alreay here
-        # test os.scandir instead of os.fwalk
-            if os.path.isfile(dir):
-                self.read_file(dir)
-                continue
-            print("----> %s:" %(os.path.abspath(dir)) if os.path.isdir(dir) else "-----! %s not found" %(os.path.abspath(dir)) )
-            for dirpath,filename in self._gen_filennames(dir):
-                path = os.path.abspath(os.path.normpath(dirpath+"/"+filename))
-                symlink = os.path.islink(path)
-                if symlink:
-                    real_file = os.path.realpath(path) # TODO: maybe check is file really exists already here
-                    print("-----l %s = symlink, realpath = %s" %(path,real_file))
-                    symlink, path = True, real_file
-                if os.path.isfile(path) or symlink:
-                    self.read_file(path)
-                else:
-                    print("-------! %s neither file or symlink (=%s)" %(path,detect_from_filename(path)[0]) if PYMAGIC else "-------! %s neither file or symlink (install python-magic to see mime_type)" %path)
 
 
 class Util:
@@ -149,13 +68,6 @@ class Util:
 if __name__ == "__main__":
     args = create_parser()
     FMT = { "red":"\x1b[31m","green":"\x1b[32m","bold":"\x1b[1m","cyan":"\x1b[36m","default":"\x1b[0m" }
-    
-    if args.info is True:
-        SYSFS_PATH="/sys/bus/pci/devices"
-        devs = os.listdir(SYSFS_PATH)
-        gpu = [ "/sys/bus/pci/devices/"+i+"/" for i in devs if "0x03000" in open(SYSFS_PATH+"/"+i+"/class").read() ] 
-        File_Walk(gpu)
-        exit(0)
         
     with open(args.config,"r") as f:
         config = json.loads(f.read())
