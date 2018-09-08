@@ -1,6 +1,6 @@
 pkgname="nvidia-prime-switch-sddm"
 pkgver=1
-pkgrel=7
+pkgrel=8
 pkgdesc="(! use only with sddm !) Setup nvidia and intel for optimus based laptops without bumblebee (current nvidia driver) (! use only with sddm !)"
 license=("none")
 kernelvers="$(uname -r | awk -F "." '{print $1 $2}')"
