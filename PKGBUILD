@@ -5,12 +5,12 @@ pkgdesc="(! use only with sddm !) Setup nvidia and intel for optimus based lapto
 license=("none")
 kernelvers="$(uname -r | awk -F "." '{print $1 $2}')"
 depends=('xf86-video-intel' 'python' 'sddm' "linux${kernelvers}-nvidia-390xx" 'lib32-nvidia-390xx-utils' 'nvidia-390xx-utils')
-optdepends=('python-magic: better support for --info switch')
+#optdepends=()
 makedepends=('python')
 conflicts=('nvidia-prime-switch' 'nvidia-prime-switch-lightdm')
 source=('prime-switch.py' 'prime-switch-conf.json' 'intel.conf' 'nvidia.conf' 'intel-modesetting.conf' 'nvidia-prime-displaymanager.hook')
 sha256sums=(
-'633ec3671aa14b55eaf7dcd97ecd95da1bcc3b76b3a54fff2fb022b75e65dcd1'
+'eabaaa8d12fd14a9b66805f365cabaaab3a0f824dddccf127a716d543a71c687'
 '574138661177cc5042636f237c8adc2e934a38adb7bf2851acd35d0115ca8569'
 'b7e686d0f689c9d7e2d99ffa6a3b3c110730e36a911b5672f711551b3e41d6a8'
 '8e0473885e05c7a3b00380db251884456a29111544f94faeabd945b442595891'
