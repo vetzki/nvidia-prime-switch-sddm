@@ -22,7 +22,7 @@ exit(1)
 '
 }
 
-if [[ $(check) == True ]];
+if [[ \$(check) == True ]];
     then
 	# nouveau (see also https://nouveau.freedesktop.org/wiki/Optimus/)
 	xrandr --setprovideroffloadsink nouveau Intel;
