@@ -3,11 +3,12 @@
 #### This package is for optimus based laptops and allow switching between nvidia and intel card
 #### intented for usage with sddm
 
+
 install either
 `linux-Your_kernel_version(s)-nvidia module(s), nvidia-utils and lib32-nvidia-utils`
 OR
 `linux-Your_kernel_version(s)-nvidia-390xx module(s), lib32-nvidia-390xx-utils and nvidia-390xx-utils`
-(nvidia-utils and nvidia-390xx-utils conflicting thus only can add them as optdepends)
+(because nvidia-utils and nvidia-390xx-utils are conflicting packages they're only optdepends.)
 
 
 build package:
@@ -28,7 +29,7 @@ Add own configs:
 (e.g. prime-switch -s ~/prime-switch-conf.json)
 * create xorg config file (e.g. in /etc/X11/mhwd.d)
 * open dumped json configuration file with text editor and add something like this:
-`
+```
         "nvidia_3Monitor": {
             "comment": "Own nvidia file for 3 Monitors",
             "xorg_file": "/etc/X11/mhwd.d/nvidia_3Mons.conf",
@@ -47,15 +48,15 @@ Add own configs:
                 "nvidia-drm modeset=1"
             ]
         }
-`
+```
 
 "nvidia_3Monitor" = id (used with prime-switch -d)
 "comment" = not needed, use for short info if needed
 "xorg_file" = path to xorg config file
 "modules_load" = modules to load (writes to /etc/modules-load.d/mhwd-gpu.conf)
-"modules_blacklist" = modules to blacklist (writes to /etc/modprobe.d/mhwd-gpu.conf) Note: if a module has a blacklisted module as dependency it still will be loaded
-"modules_disable" = modules to disable (writes to /etc/modprobe.d/mhwd-gpu.conf) Note: prevents loading of a module even if another module has it as dependency
-"modules_options" = options for modules (writes to /etc/modprobe.d/mhwd-gpu.conf) Note: module name follow by option(s)
+"modules_blacklist" = modules to blacklist (writes to /etc/modprobe.d/mhwd-gpu.conf) Note: blacklisted modules can still be loaded as dependency of another module
+"modules_disable" = modules to disable (writes to /etc/modprobe.d/mhwd-gpu.conf) Note: prevents loading of a module even if another module tries to load it
+"modules_options" = options for modules (writes to /etc/modprobe.d/mhwd-gpu.conf) Note: module name followed by option(s)
 e.g.:
 "modules_options": [
 "i915 enable_rc6=7 enable_dc=1",
@@ -74,6 +75,24 @@ Troubleshoot:
 * check for errors in xorg log
 ( if you start x org without root priviliges log file is in ~/.local/share/xorg/_Xorg-DisplayNumber_.log else in /var/log/Xorg._DisplayNumber_.log )
 * check if you have correct nvidia kernel module and nvidia-utils installed
+* try the example nvidia config (adjust for your laptop)
+
+For power saving:
+you can set with_udev=1 in PKGBUILD to include udev rule
+
+or
+
+create a additional config which disables nvidia modules (and blacklist/disable nouveau if you have nouveau installed) with intel config and add this udev rule (/etc/udev/rules.d):
+e.g.: 999-nvidia-gpu-power.rules:
+```
+SUBSYSTEM=="pci", DRIVER=="", ATTR{class}=="0x030000", ATTR{vendor}=="0x10de", ATTR{power/control}="auto"
+```
+
+(you probably can also remove the DRIVER match and set always "auto")
+
+(adddtional you maybe need also turn off the gpu via acpi call)
+
+(thanks to dglt who found this)
 
 
 Files:
@@ -82,6 +101,8 @@ Files:
 /etc/X11/mhwd.d/intel.conf: X config for intel gpu
 
 /etc/X11/mhwd.d/nvidia.conf: X config for nvidia gpu
+
+/etc/udev/rules.d/999-nvidia-gpu-power.rules: udev rule for setting power/control to "auto"
 
 /usr/local/bin/prime-switch: python script for switching gpus
 
