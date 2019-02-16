@@ -1,0 +1,2 @@
+# set power/control of nvidia gpu auto in case no driver is loaded
+SUBSYSTEM=="pci", DRIVER=="", ATTR{class}=="0x030000", ATTR{vendor}=="0x10de", ATTR{power/control}="auto"
