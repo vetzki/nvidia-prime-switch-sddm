@@ -50,6 +50,38 @@
             ],
             "modules_options": []
         },
+        "intel_only": {
+            "comment": "Use intel only without any loaded modules for nvidia gpu (via intel)",
+            "xorg_file": "/etc/X11/mhwd.d/intel.conf",
+            "modules_load": [],
+            "modules_blacklist": [
+                "nouveau",
+                "ttm"
+            ],
+            "modules_disable": [
+                "nvidia",
+                "nvidia-modeset",
+                "nvidia-drm",
+                "nvidia-uvm"
+            ],
+            "modules_options": []
+        },
+        "intel_only_ms": {
+            "comment": "Use intel only without any loaded modules for nvidia gpu (via modesetting)",
+            "xorg_file": "/etc/X11/mhwd.d/intel-modesetting.conf",
+            "modules_load": [],
+            "modules_blacklist": [
+                "nouveau",
+                "ttm"
+            ],
+            "modules_disable": [
+                "nvidia",
+                "nvidia-modeset",
+                "nvidia-drm",
+                "nvidia-uvm"
+            ],
+            "modules_options": []
+        },
         "nvidia": {
             "comment":"Use nvidia gpu with prime synchronization enabled (nvidia-drm modest=1)",
             "xorg_file": "/etc/X11/mhwd.d/nvidia.conf",
