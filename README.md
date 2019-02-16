@@ -1,3 +1,5 @@
+### Deprecated, please switch to master branch!
+
 #### nvidia-prime-switch-sddm for nvidia or nvidia-390xx
 
 #### This package is for optimus based laptops and allow switching between nvidia and intel card
@@ -28,7 +30,7 @@ Add own configs:
 (e.g. prime-switch -s ~/prime-switch-conf.json)
 * create xorg config file (e.g. in /etc/X11/mhwd.d)
 * open dumped json configuration file with text editor and add something like this:
-`
+```
         "nvidia_3Monitor": {
             "comment": "Own nvidia file for 3 Monitors",
             "xorg_file": "/etc/X11/mhwd.d/nvidia_3Mons.conf",
@@ -47,7 +49,7 @@ Add own configs:
                 "nvidia-drm modeset=1"
             ]
         }
-`
+```
 
 "nvidia_3Monitor" = id (used with prime-switch -d)
 "comment" = not needed, use for short info if needed
