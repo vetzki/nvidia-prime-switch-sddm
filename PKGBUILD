@@ -5,10 +5,10 @@ pkgdesc="(! use only with sddm !) Setup nvidia and intel for optimus based lapto
 license=("none")
 install="${pkgname}".install
 depends=('xf86-video-intel' 'python' 'sddm')
-optdepends=("linux-nvidia-kernelmodules: kernel modules for newer nvidia gpus"
+optdepends=("nvidia: nvidia kernel module(s) for newer gpus"
 'lib32-nvidia-utils: 32bit nvidia utils for newer gpus'
 'nvidia-utils: nvidia utils for newer gpus'
-"linux-nvidia-390xx-kernelmodules: kernel modules for older nvidia gpus (Fermi)"
+"nvidia-390xx: nvidia kernel module(s) for older gpus (Fermi)"
 'lib32-nvidia-390xx-utils: 32bit nvidia utils for older nvidia gpus (Fermi)'
 'nvidia-390xx-utils: nvidia utils for older nvidia gpus (Fermi)')
 makedepends=('python')
