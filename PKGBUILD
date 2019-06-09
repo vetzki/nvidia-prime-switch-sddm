@@ -15,8 +15,8 @@ makedepends=('python')
 conflicts=('nvidia-prime-switch' 'nvidia-prime-switch-lightdm')
 source=('prime-switch.py' 'prime-switch-conf.json' 'intel.conf' 'nvidia.conf' 'intel-modesetting.conf' '999-nvidia-gpu-power.rules' 'nvidia-prime-displaymanager.hook' 'prime-switch-systray.py' 'prime-switch-systray.desktop')
 sha256sums=(
-'d8f5016201322567b730cb610f4a0fc93b58dc5760ce9b53a4ecb46b53769e00'
-'a4edfec11ba65e0f6e9944c25ffe3f7fad8cbc2beda4cb3e09ea06cf52d486b5'
+'1a92788e893c462e77ae1340490831e062824ad768818f45d0fa3fa80387ced8'
+'193bd60870e1dd484a205e6c2607ffa299ad165530e5904ef0348d7e7378a4bf'
 'b7e686d0f689c9d7e2d99ffa6a3b3c110730e36a911b5672f711551b3e41d6a8'
 '5ff9c2f17ac10eb42a258f861094ba478fabaa283d11212553e1256b3997dc91'
 'edd5b3968e0cf46dcc13a8335f71291b19355c8fc75c8c3af597540fe548c929'
