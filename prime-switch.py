@@ -27,6 +27,13 @@ def create_parser():
     )
     return(parser.parse_args())
 
+# remove in the future
+def _compat_helper(conf,f,FMT):
+    try:
+        return(conf["symlink_target"])
+    except KeyError:
+        print("%smhwd_symlink_target is deprecated. please change mhwd_symlink_target to symlink_target in your custom config file ( %s )%s" %(FMT["red"],os.path.realpath(f),FMT["default"]))
+        return(conf["mhwd_symlink_target"])
 
 class Util:
     def __init__(self,src, trg, mload, mblacklist, mdisable, moptions):
@@ -93,6 +100,8 @@ if __name__ == "__main__":
         
     with open(args.config,"r") as f:
         config = json.loads(f.read())
+        # remove in the future
+        symlink_trg = (lambda : _compat_helper(config,args.config,FMT))()
 
     if args.show_config is True:
         print(json.dumps(config, indent=4, separators=(',', ': ')))
@@ -113,12 +122,13 @@ if __name__ == "__main__":
 
         with Util(
                 src=config["driver"][args.driver]["xorg_file"],
-                trg=config["mhwd_symlink_target"],
+                trg=symlink_trg,
                 mload=config["driver"][args.driver]["modules_load"],
                 mblacklist=config["driver"][args.driver]["modules_blacklist"],
                 mdisable=config["driver"][args.driver]["modules_disable"],
                 moptions=config["driver"][args.driver]["modules_options"]
                 ) as res:
+
             res.switch_driver()
             print("modules-load file: %s\nmodprobe file: %s\nSymlink %s -> %s" %(
                 res.modules_load_file,res.modules_modprobe_file,

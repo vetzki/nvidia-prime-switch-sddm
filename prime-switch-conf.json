@@ -1,7 +1,7 @@
 {
     "modules_load_file": "/etc/modules-load.d/mhwd-gpu.conf",
     "modules_modprobe_file": "/etc/modprobe.d/mhwd-gpu.conf",
-    "mhwd_symlink_target": "/etc/X11/xorg.conf.d/90-mhwd.conf",
+    "symlink_target": "/etc/X11/xorg.conf.d/90-mhwd.conf",
     "driver": {
         "intel": {
             "comment":"use intel gpu and load nvidia modules with enabled prime synchronization. Allow switchting without reboot.",
