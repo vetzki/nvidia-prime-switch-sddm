@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=Nvidia PRIME Switch Indicator
+Comment=An indicator for easily switch between Intel and Nvidia cards
+Exec=prime-switch-systray
+Type=Application

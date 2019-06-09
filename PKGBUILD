@@ -13,7 +13,7 @@ optdepends=("nvidia: nvidia kernel module(s) for newer gpus"
 'nvidia-390xx-utils: nvidia utils for older nvidia gpus (Fermi)')
 makedepends=('python')
 conflicts=('nvidia-prime-switch' 'nvidia-prime-switch-lightdm')
-source=('prime-switch.py' 'prime-switch-conf.json' 'intel.conf' 'nvidia.conf' 'intel-modesetting.conf' '999-nvidia-gpu-power.rules' 'nvidia-prime-displaymanager.hook')
+source=('prime-switch.py' 'prime-switch-conf.json' 'intel.conf' 'nvidia.conf' 'intel-modesetting.conf' '999-nvidia-gpu-power.rules' 'nvidia-prime-displaymanager.hook' 'prime-switch-systray.py' 'prime-switch-systray.desktop')
 sha256sums=(
 'd8f5016201322567b730cb610f4a0fc93b58dc5760ce9b53a4ecb46b53769e00'
 'a4edfec11ba65e0f6e9944c25ffe3f7fad8cbc2beda4cb3e09ea06cf52d486b5'
@@ -22,6 +22,8 @@ sha256sums=(
 'edd5b3968e0cf46dcc13a8335f71291b19355c8fc75c8c3af597540fe548c929'
 'a81c12989ae92d6c261ca57c597a2226d123f57f0425004e08896fb113f4ced0'
 '547ca622632e234f04900a46e5652ea5c77b252595689b22c8e46f81a800173f'
+'5b418bccb30fe3e7e50b71b1f5c2801498b8e1f0e48ac29efb26c1e33fa555c6'
+'318d8a6707d3024f83c2ba0d47ff642bece91dabe834cd7719ef8673d4f7a0ad'
 )
 
 arch=('x86_64')
@@ -74,4 +76,7 @@ if [ $with_udev == 1 ]; then install -Dm644 999-nvidia-gpu-power.rules "${pkgdir
 
 # hooks
 install -Dm644 "${srcdir}/nvidia-prime-displaymanager.hook" "${pkgdir}/usr/share/libalpm/hooks/nvidia-prime-displaymanager.hook"
+
+install -Dm755 "${srcdir}/prime-switch-systray.py" "${pkgdir}/usr/bin/prime-switch-systray"
+install -Dm644 "${srcdir}/prime-switch-systray.desktop" "${pkgdir}/etc/xdg/autostart/prime-switch-systray.desktop"
 }
