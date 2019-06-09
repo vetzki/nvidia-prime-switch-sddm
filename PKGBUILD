@@ -32,11 +32,19 @@ prefix="/usr/local"
 # with (1) or without (0) udev rule
 with_udev=0
 
+# with or without gtk3-systray
+with_systray_gtk3=1
+
 if [ $with_udev == 1 ];
   then
     backup=('etc/X11/mhwd.d/intel.conf' 'etc/X11/mhwd.d/intel-modesetting.conf' 'etc/X11/mhwd.d/nvidia.conf' 'etc/udev/rules.d/999-nvidia-gpu-power.rules')
   else
     backup=('etc/X11/mhwd.d/intel.conf' 'etc/X11/mhwd.d/intel-modesetting.conf' 'etc/X11/mhwd.d/nvidia.conf')
+fi
+
+if [ $with_systray_gtk3 == 1 ];
+  then
+    depends+=('libappindicator-gtk3' 'polkit')
 fi
 
 prepare() {
@@ -77,6 +85,10 @@ if [ $with_udev == 1 ]; then install -Dm644 999-nvidia-gpu-power.rules "${pkgdir
 # hooks
 install -Dm644 "${srcdir}/nvidia-prime-displaymanager.hook" "${pkgdir}/usr/share/libalpm/hooks/nvidia-prime-displaymanager.hook"
 
-install -Dm755 "${srcdir}/prime-switch-systray.py" "${pkgdir}/usr/bin/prime-switch-systray"
-install -Dm644 "${srcdir}/prime-switch-systray.desktop" "${pkgdir}/etc/xdg/autostart/prime-switch-systray.desktop"
+# systray
+if [ $with_systray_gtk3 == 1 ];
+  then
+    install -Dm755 "${srcdir}/prime-switch-systray.py" "${pkgdir}/usr/bin/prime-switch-systray"
+    install -Dm644 "${srcdir}/prime-switch-systray.desktop" "${pkgdir}/etc/xdg/autostart/prime-switch-systray.desktop"
+fi
 }
