@@ -4,7 +4,7 @@ pkgrel=9
 pkgdesc="(! use only with sddm !) Setup nvidia and intel for optimus based laptops without bumblebee (! use only with sddm !)"
 license=("none")
 install="${pkgname}".install
-depends=('xf86-video-intel' 'python' 'sddm')
+depends=('xf86-video-intel' 'python' 'sddm' 'xorg-xrandr')
 optdepends=("nvidia: nvidia kernel module(s) for newer gpus"
 'lib32-nvidia-utils: 32bit nvidia utils for newer gpus'
 'nvidia-utils: nvidia utils for newer gpus'
