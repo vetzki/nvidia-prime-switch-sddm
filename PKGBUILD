@@ -51,14 +51,24 @@ prepare() {
 # xconfigs
 # ensure right buisd (maybe not needed)
 pcis=$(python -c '
-from subprocess import getoutput
-std = getoutput("lspci | grep -e VGA -e 3D").split("\n")
-pci = [ i.split(" ")[0] for i in std if "intel" in i.lower() ]
-pci += [ i.split(" ")[0] for i in std if "nvidia" in i.lower() ]
-cids = {}
-joiner = ":"
-for k,v in enumerate(pci): cids[k]=[int(i) for i in v.replace(".",":").split(":")];
-print("%s %s" %(joiner.join(str(x) for x in cids[0]),joiner.join(str(x) for x in cids[1])) )
+import os
+
+SYSFS_PATH="/sys/bus/pci/devices"
+devs = os.listdir(SYSFS_PATH)
+gpus = [ i for i in devs if "0x03000" in open(SYSFS_PATH+"/"+i+"/class").read() ]
+gpuids = {}
+# use dict instead of list, use "0" as key for intel and "1" for nvidia
+for pciid in gpus:
+    with open(SYSFS_PATH+"/"+pciid+"/vendor") as f:
+        vendor = f.read().rstrip("\n")
+    if vendor == "0x8086":
+        gpuids[0] = pciid
+    elif vendor == "0x10de":
+        gpuids[1] = pciid
+
+# use range instead of dict.values(), print intel pci-id first, also format output to x:x:x for xorg conf file
+for i in range(0,2):
+    print("%s" %(":".join([str(int(i)) for i in gpuids[i].replace(".",":").split(":")][1:])))
 ')
 
 i=$(echo ${pcis} | cut -d \  -f 1) # intel config
